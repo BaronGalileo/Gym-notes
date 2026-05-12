@@ -1,0 +1,82 @@
+.overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  z-index: 10;
+}
+
+
+.modal {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 85vh;
+
+  background: #151515;
+
+  border-radius: 24px 24px 0 0;
+
+  z-index: 20;
+
+  padding: 10px;
+
+  overflow-y: auto;
+
+  color: white;
+
+  animation: up 0.2s ease;
+}
+
+@keyframes up {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.handle {
+  width: 50px;
+
+  height: 5px;
+
+  background: #444;
+
+  border-radius: 999px;
+
+  margin: 0 auto 20px;
+}
+
+.history {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+.historyItem {
+  background: #202020;
+
+  padding: 14px;
+
+  border-radius: 16px;
+}
+
+.expandBtn {
+  margin-top: 8px;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 14px;
+}

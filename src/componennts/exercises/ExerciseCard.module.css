@@ -1,0 +1,112 @@
+.card {
+  display: flex;
+  gap: 12px;
+
+  padding: 14px;
+
+  border-radius: 18px;
+
+  background: #161616;
+
+  margin-bottom: 12px;
+
+  color: white;
+
+  min-height: 120px;
+}
+
+.left {
+  width: 32%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.right {
+  width: 68%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+.title {
+  text-align: center;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+}
+
+.tag {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.tagLabel {
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.day {
+  font-size: 12px;
+
+  opacity: 0.6;
+}
+
+
+.history {
+  display: flex;
+  width: 85%;
+  gap: 8px;
+  scroll-padding: 50%;
+
+  overflow-x: auto;
+  padding-bottom: 4px;
+
+  scroll-snap-type: x mandatory;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.historyItem {
+  min-width: 110px;
+  transform: scale(0.9);
+  flex-shrink: 0;
+  scroll-snap-align: center;
+}
+
+.history::-webkit-scrollbar {
+  display: none;
+}
+
+
+.historyItem p {
+  font-size: 12px;
+
+  opacity: 0.7;
+
+  margin-bottom: 6px;
+}
+
+.historyItem strong {
+  font-size: 16px;
+}
+
+.activeHistoryItem {
+  transform: scale(1);
+  background: #1a1a1a;
+  border: 1px solid #ec1f1f;
+}
+
