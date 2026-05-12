@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 
 import type {
   Exercise,
+  TrainingDayTag,
   WorkoutEntry,
 } from "../../entities/exercise/model/types";
 
@@ -14,6 +15,8 @@ type GymStore = {
   removeExercise: (exerciseId: string) => void;
 
   saveWorkout: (exerciseId: string, workout: WorkoutEntry) => void;
+
+  moveExerciseToDay: (exerciseId: string, newDay: TrainingDayTag) => void;
 
   reset: () => void;
 };
@@ -66,6 +69,17 @@ export const useGymStore = create<GymStore>()(
           }),
         })),
 
+      moveExerciseToDay: (exerciseId, newDay) =>
+        set((state) => ({
+          exercises: state.exercises.map((ex) => {
+            if (ex.id !== exerciseId) return ex;
+
+            return {
+              ...ex,
+              trainingDay: newDay,
+            };
+          }),
+        })),
 
       reset: () =>
         set(() => ({

@@ -62,14 +62,16 @@ export const ExercisesList = () => {
       const matchMuscle =
         selectedMuscle === "all"
           ? true
-          : exercise.tags.includes(selectedMuscle);
+          : exercise.muscleGroups.includes(selectedMuscle);
 
       const matchDay =
-        selectedDay === "all" ? true : exercise.tags.includes(selectedDay);
+        selectedDay === "all" ? true : exercise.trainingDay === selectedDay;
 
       return matchMuscle && matchDay;
     });
   }, [exercises, selectedMuscle, selectedDay]);
+
+  const moveExerciseToDay = useGymStore((state) => state.moveExerciseToDay);
 
   return (
     <>
@@ -105,9 +107,9 @@ export const ExercisesList = () => {
 
       {filteredExercises.map((exercise) => (
         <ExerciseCard
-          key={exercise.id}
           exercise={exercise}
           onClick={() => setSelectedExercise(exercise)}
+          onMoveToDay={moveExerciseToDay}
         />
       ))}
       {selectedExercise && (

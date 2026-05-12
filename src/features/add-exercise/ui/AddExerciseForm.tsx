@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useGymStore } from "../../../app/store/gym.store";
 import type {
-  ExerciseTag,
   MuscleGroup,
   TrainingDayTag,
 } from "../../../entities/exercise/model/types";
@@ -62,12 +61,12 @@ export const AddExerciseForm = () => {
       return;
     }
 
-    const tags: ExerciseTag[] = [muscle, day];
 
     addExercise({
       id: crypto.randomUUID(),
       title,
-      tags,
+      muscleGroups: muscle,
+      trainingDay: day,
       history: [],
     });
 

@@ -13,7 +13,6 @@ type WorkoutEntry = {
   sets: WorkoutSet[];
 };
 
-type ExerciseTag = MuscleGroup | TrainingDayTag;
 
 type MuscleGroup =
   | "chest"
@@ -39,7 +38,9 @@ type Exercise = {
 
   title: string;
 
-  tags: ExerciseTag[];
+  muscleGroups: MuscleGroup;
+
+  trainingDay: TrainingDayTag;
 
   image?: string;
 
@@ -48,10 +49,8 @@ type Exercise = {
   history: WorkoutEntry[];
 };
 
-
 export type {
   Exercise,
-  ExerciseTag,
   MuscleGroup,
   TrainingDayTag,
   WorkoutEntry,
