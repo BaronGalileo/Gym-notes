@@ -6,6 +6,7 @@ import type {
   Exercise,
   WorkoutSet,
 } from "../../../entities/exercise/model/types";
+import { MyButton } from "../../../ui/MyButton/MyButton";
 import { MyInput } from "../../../ui/MyInput/MyInput";
 
 type Props = {
@@ -135,12 +136,12 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
               placeholder="reps"
             />
           </div>
-          <button
+          <MyButton
             style={{ height: "50%", background: "red" }}
             onClick={() => removeSet(set.id)}
           >
             -
-          </button>
+          </MyButton>
         </div>
       ))}
       <div>
@@ -151,10 +152,10 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
         />
       </div>
 
-      <button onClick={addSet}>+ Set</button>
+      <MyButton onClick={addSet}>+ Set</MyButton>
       <br />
 
-      <button onClick={handleSaveWorkout}>Сохранить</button>
+      <MyButton onClick={handleSaveWorkout}>Сохранить</MyButton>
     </div>
   );
 };

@@ -43,12 +43,10 @@ export const ExerciseCard = ({ exercise, onClick }: Props) => {
 
           return (
             <div key={tag} className={cl.tag}>
-              {meta.icon && <img src={meta.icon} width={32} height={32} />}
+              {meta.icon && <img src={meta.icon} className={cl.icon} />}
 
               <div>
                 <p className={cl.tagLabel}>{meta.label}</p>
-
-                {!meta.icon && <p className={cl.day}>{meta.label}</p>}
               </div>
             </div>
           );

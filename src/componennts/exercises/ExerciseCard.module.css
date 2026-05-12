@@ -1,56 +1,51 @@
 .card {
   display: flex;
   gap: 12px;
-
   padding: 14px;
-
   border-radius: 18px;
-
   background: #161616;
-
-  margin-bottom: 12px;
-
+  margin-bottom: 3px;
   color: white;
-
-  min-height: 120px;
+  min-height: clamp(100px, 18vw, 140px);
 }
 
 .left {
-  width: 32%;
-
+  width: 30%;
+  height: 100px;
   display: flex;
-
   flex-direction: column;
-
-  gap: 10px;
 }
 
 .right {
-  width: 68%;
-
+  width: 65%;
   display: flex;
-
   flex-direction: column;
-
   overflow: hidden;
 }
 
 .title {
   text-align: center;
-
   font-size: 18px;
-
   font-weight: 700;
-
   margin-bottom: 10px;
 }
 
 .tag {
   display: flex;
-
   align-items: center;
 
   gap: 8px;
+
+  height: 100%;
+}
+
+.icon {
+  height: 75%;
+  width: auto;
+
+  object-fit: contain;
+
+  flex-shrink: 0;
 }
 
 .tagLabel {
@@ -64,7 +59,6 @@
 
   opacity: 0.6;
 }
-
 
 .history {
   display: flex;
@@ -91,7 +85,6 @@
   display: none;
 }
 
-
 .historyItem p {
   font-size: 12px;
 
@@ -109,4 +102,3 @@
   background: #1a1a1a;
   border: 1px solid #ec1f1f;
 }
-

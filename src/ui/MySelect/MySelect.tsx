@@ -1,6 +1,6 @@
 import type {
-    ReactNode,
-    SelectHTMLAttributes
+  ReactNode,
+  SelectHTMLAttributes
 } from 'react'
 import cl from './MySelect.module.css'
 
@@ -19,3 +19,5 @@ export const MySelect = ({
     </select>
   )
 }
+
+

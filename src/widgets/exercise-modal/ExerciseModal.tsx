@@ -3,6 +3,7 @@ import type { Exercise } from "../../entities/exercise/model/types";
 
 import { SaveWorkoutForm } from "../../features/add-workout/ui/SaveWorkoutForm";
 
+import { MyButton } from "../../ui/MyButton/MyButton";
 import cl from "./ExerciseModal.module.css";
 
 type Props = {
@@ -25,12 +26,12 @@ export const ExerciseModal = ({ exercise, onClose }: Props) => {
 
         <h2>{exercise.title}</h2>
         {exercise.history.length > 3 && (
-          <button
+          <MyButton
             className={cl.expandBtn}
             onClick={() => setExpanded((v) => !v)}
           >
             {expanded ? "Скрыть" : "Показать ещё"}
-          </button>
+          </MyButton>
         )}
         <div className={cl.history}>
           {visibleHistory.map((entry) => (

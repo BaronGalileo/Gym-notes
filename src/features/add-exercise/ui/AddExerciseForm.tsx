@@ -5,6 +5,7 @@ import type {
   MuscleGroup,
   TrainingDayTag,
 } from "../../../entities/exercise/model/types";
+import { MyButton } from "../../../ui/MyButton/MyButton";
 import { MyInput } from "../../../ui/MyInput/MyInput";
 import { MySelect } from "../../../ui/MySelect/MySelect";
 
@@ -109,7 +110,7 @@ export const AddExerciseForm = () => {
 
       <br />
 
-      <button onClick={handleAdd}>Add</button>
+      <MyButton onClick={handleAdd}>Add</MyButton>
     </div>
   );
 };
