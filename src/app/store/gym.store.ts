@@ -7,6 +7,8 @@ import type {
   WorkoutEntry,
 } from "../../entities/exercise/model/types";
 
+import { indexedDBStorage } from "./indexedDBStorage";
+
 type GymStore = {
   exercises: Exercise[];
 
@@ -23,7 +25,7 @@ type GymStore = {
 
 export const useGymStore = create<GymStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       exercises: [],
 
       addExercise: (exercise) =>
@@ -39,16 +41,13 @@ export const useGymStore = create<GymStore>()(
       saveWorkout: (exerciseId, workout) =>
         set((state) => ({
           exercises: state.exercises.map((exercise) => {
-            if (exercise.id !== exerciseId) {
-              return exercise;
-            }
+            if (exercise.id !== exerciseId) return exercise;
 
             const today = new Date().toDateString();
 
             const existingIndex = exercise.history.findIndex(
               (entry) => new Date(entry.createdAt).toDateString() === today,
             );
-
 
             if (existingIndex !== -1) {
               const updatedHistory = [...exercise.history];
@@ -70,14 +69,9 @@ export const useGymStore = create<GymStore>()(
 
       moveExerciseToDay: (exerciseId, newDay) =>
         set((state) => ({
-          exercises: state.exercises.map((ex) => {
-            if (ex.id !== exerciseId) return ex;
-
-            return {
-              ...ex,
-              trainingDay: newDay,
-            };
-          }),
+          exercises: state.exercises.map((ex) =>
+            ex.id === exerciseId ? { ...ex, trainingDay: newDay } : ex,
+          ),
         })),
 
       reset: () =>
@@ -87,6 +81,12 @@ export const useGymStore = create<GymStore>()(
     }),
     {
       name: "gym-storage",
+
+      storage: indexedDBStorage,
+
+      partialize: (state) => ({
+        exercises: state.exercises,
+      }),
     },
   ),
 );
