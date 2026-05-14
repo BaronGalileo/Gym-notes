@@ -27,11 +27,11 @@
 }
 
 .title {
-  text-align: center;
+  text-align: start;
   font-size: 18px;
   font-weight: 700;
-  flex: 0 0 33%;
-  margin: 0;
+  flex: 0 0 40%;
+  margin: 2px;
 }
 
 .tag {
@@ -112,6 +112,6 @@
 
 .closeBtn {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 3px;
+  right: 3px;
 }
