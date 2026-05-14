@@ -1,11 +1,13 @@
 .card {
+  position: relative;
   display: flex;
   gap: 12px;
-  padding: 14px;
+  padding: 3px;
   border-radius: 18px;
   background: #161616;
   margin-bottom: 3px;
   color: white;
+  width: 90%;
   min-height: clamp(100px, 18vw, 140px);
 }
 
@@ -21,17 +23,20 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  height: 100%;
 }
 
 .title {
   text-align: center;
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 10px;
+  flex: 0 0 33%;
+  margin: 0;
 }
 
 .tag {
   display: flex;
+  justify-content: center;
   align-items: center;
 
   gap: 8px;
@@ -61,6 +66,7 @@
 }
 
 .history {
+  flex: 1;
   display: flex;
   width: 85%;
   gap: 8px;
@@ -99,6 +105,13 @@
 
 .activeHistoryItem {
   transform: scale(1);
-  background: #1a1a1a;
-  border: 1px solid #ec1f1f;
+  background: #161616;
+  border: 1px solid #f3d10e;
+  border-radius: 10px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
 }

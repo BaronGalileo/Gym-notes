@@ -8,6 +8,7 @@ import type {
 } from "../../../entities/exercise/model/types";
 import { MyButton } from "../../../ui/MyButton/MyButton";
 import { MyInput } from "../../../ui/MyInput/MyInput";
+import cl from "./SaveWorkoutForm.module.css";
 
 type Props = {
   exercise: Exercise;
@@ -25,14 +26,13 @@ const DEFAULT_SETS: WorkoutSet[] = [
 export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
   const saveWorkout = useGymStore((state) => state.saveWorkout);
 
-  const todayWorkout = null;
 
-  // const todayWorkout = useMemo(() => {
-  //   return exercise.history.find(
-  //     (entry) =>
-  //       new Date(entry.createdAt).toDateString() === new Date().toDateString(),
-  //   );
-  // }, [exercise.history]);
+  const todayWorkout = useMemo(() => {
+    return exercise.history.find(
+      (entry) =>
+        new Date(entry.createdAt).toDateString() === new Date().toDateString(),
+    );
+  }, [exercise.history]);
 
   const lastWorkout = useMemo(() => {
     return todayWorkout ?? exercise.history[exercise.history.length - 1];
@@ -85,77 +85,134 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
     });
   };
 
+
   const handleSaveWorkout = () => {
     saveWorkout(exercise.id, {
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
+      id: todayWorkout?.id ?? crypto.randomUUID(),
+      createdAt: todayWorkout?.createdAt ?? new Date().toISOString(),
       comment,
       sets,
     });
     onClose();
   };
 
-  // const handleSaveWorkout = () => {
-  //   saveWorkout(exercise.id, {
-  //     id: todayWorkout?.id ?? crypto.randomUUID(),
-  //     createdAt: todayWorkout?.createdAt ?? new Date().toISOString(),
-  //     comment,
-  //     sets,
-  //   });
-  // };
-
-  return (
-    <div>
+return (
+  <div className={cl.form}>
+    <div className={cl.sets}>
       {sets.map((set, index) => (
-        <div
-          key={index}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            marginBottom: 10,
-          }}
-        >
-          <div>
-            <label>KG</label>
-            <MyInput
-              type="number"
-              value={set.weight}
-              onChange={(e) =>
-                updateSet(index, "weight", Number(e.target.value))
-              }
-              placeholder="kg"
-            />
-          </div>
-          <div>
-            <label>REPS</label>
-            <MyInput
-              type="number"
-              value={set.reps}
-              onChange={(e) => updateSet(index, "reps", Number(e.target.value))}
-              placeholder="reps"
-            />
-          </div>
+        <div key={set.id} className={cl.setCard}>
+          <MyInput
+            label="Kg"
+            type="number"
+            value={set.weight}
+            onChange={(e) =>
+              updateSet(index, "weight", Number(e.target.value))
+            }
+            placeholder="0"
+          />
+
+          <MyInput
+            label="Повторы"
+            type="number"
+            value={set.reps}
+            onChange={(e) =>
+              updateSet(index, "reps", Number(e.target.value))
+            }
+            placeholder="10"
+          />
+
           <MyButton
-            style={{ height: "50%", background: "red" }}
+            className={cl.removeBtn}
             onClick={() => removeSet(set.id)}
           >
-            -
+            Х
           </MyButton>
         </div>
       ))}
-      <div>
-        <MyInput
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="комментарий"
-        />
-      </div>
-
-      <MyButton onClick={addSet}>+ Set</MyButton>
-      <br />
-
-      <MyButton onClick={handleSaveWorkout}>Сохранить</MyButton>
     </div>
-  );
-};
+
+    <div className={cl.comment}>
+      <MyInput
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder="Комментарий"
+        label="Комментарий"
+      />
+    </div>
+
+    <div className={cl.actions}>
+      <MyButton className={cl.addBtn} onClick={addSet}>
+        + подход
+      </MyButton>
+
+      <MyButton
+        className={cl.saveBtn}
+        onClick={handleSaveWorkout}
+      >
+        Сохранить
+      </MyButton>
+    </div>
+  </div>
+);
+}
+
+
+
+
+
+
+//   return (
+//     <div>
+//       {sets.map((set, index) => (
+//         <div
+//           key={index}
+//           style={{
+//             display: "flex",
+//             alignItems: "center",
+//             gap: 8,
+//             marginBottom: 10,
+//           }}
+//         >
+//           <div>
+//             <MyInput
+//               label="Kg"
+//               type="number"
+//               value={set.weight}
+//               onChange={(e) =>
+//                 updateSet(index, "weight", Number(e.target.value))
+//               }
+//               placeholder="kg"
+//             />
+//           </div>
+//           <div>
+//             <MyInput
+//               label="Повторы"
+//               type="number"
+//               value={set.reps}
+//               onChange={(e) => updateSet(index, "reps", Number(e.target.value))}
+//               placeholder="reps"
+//             />
+//           </div>
+//           <MyButton
+//             style={{ height: "50%", background: "red" }}
+//             onClick={() => removeSet(set.id)}
+//           >
+//             -
+//           </MyButton>
+//         </div>
+//       ))}
+//       <div>
+//         <MyInput
+//           value={comment}
+//           onChange={(e) => setComment(e.target.value)}
+//           placeholder="комментарий"
+//         />
+//       </div>
+
+//       <MyButton onClick={addSet}>+ Set</MyButton>
+//       <br />
+
+//       <MyButton onClick={handleSaveWorkout}>Сохранить</MyButton>
+//     </div>
+//   );
+// };

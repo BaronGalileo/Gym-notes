@@ -1,6 +1,43 @@
-.myInput {
-  width: 80%;
-  padding: 5px 15px;
-  margin: 5px 0;
-  border: 1px solid rgb(148, 175, 175);
+.field {
+  display: flex;
+  flex-direction: column;
+
+  width: 90%;
+  gap: 2px;
+  padding: 5px;
+
+  border-radius: 12px;
+  background: #1e1e1e;
+  
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.2);
 }
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #d0d317;
+}
+
+.myInput {
+  padding: 10px 12px;
+
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+
+  outline: none;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.myInput:focus {
+  border-color: #4f46e5;
+
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+

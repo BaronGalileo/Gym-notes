@@ -3,14 +3,15 @@ import { useMemo, useState } from "react";
 import { useGymStore } from "../../app/store/gym.store";
 
 import type {
-    Exercise,
-    MuscleGroup,
-    TrainingDayTag,
+  Exercise,
+  MuscleGroup,
+  TrainingDayTag,
 } from "../../entities/exercise/model/types";
 
 import { MySelect } from "../../ui/MySelect/MySelect";
 import { ExerciseModal } from "../../widgets/exercise-modal/ExerciseModal";
 import { ExerciseCard } from "./ExerciseCard";
+import cl from "./ExercisesList.module.css";
 
 const MUSCLE_LABELS: Record<MuscleGroup, string> = {
   chest: "Грудь",
@@ -74,8 +75,9 @@ export const ExercisesList = () => {
   const moveExerciseToDay = useGymStore((state) => state.moveExerciseToDay);
 
   return (
-    <>
+    <div className={cl.wrapper}>
       <MySelect
+        label="Группа мышц"
         value={selectedMuscle}
         onChange={(e) =>
           setSelectedMuscle(e.target.value as MuscleGroup | "all")
@@ -91,6 +93,7 @@ export const ExercisesList = () => {
       </MySelect>
 
       <MySelect
+        label="День тренировки"
         value={selectedDay}
         onChange={(e) =>
           setSelectedDay(e.target.value as TrainingDayTag | "all")
@@ -118,6 +121,6 @@ export const ExercisesList = () => {
           onClose={() => setSelectedExercise(null)}
         />
       )}
-    </>
+    </div>
   );
 };

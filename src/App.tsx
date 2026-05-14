@@ -6,7 +6,6 @@ export function App() {
 
   return (
     <div className='App'>
-      <h1>Тренажерка</h1>
       <ExercisesPage/>
     </div>
   )

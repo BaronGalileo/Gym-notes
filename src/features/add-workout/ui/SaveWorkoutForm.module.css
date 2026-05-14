@@ -1,0 +1,76 @@
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  flex: 1;
+
+  min-height: 0;
+}
+
+.sets {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.setCard {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr auto;
+
+  gap: 8px;
+
+  align-items: end;
+
+  background: #1d1d1d;
+
+  padding: 10px;
+
+  border-radius: 14px;
+}
+
+.removeBtn {
+  height: 42px !important;
+
+  min-width: 42px;
+
+  background: #dc2626 !important;
+
+  border-radius: 12px;
+}
+
+.comment {
+  margin-top: 4px;
+}
+
+.actions {
+  display: flex;
+
+  gap: 10px;
+
+  position: sticky;
+
+  bottom: 0;
+
+  background: #151515;
+
+  padding-top: 10px;
+}
+
+.saveBtn {
+  flex: 1;
+}
+
+.addBtn {
+  width: 90px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}

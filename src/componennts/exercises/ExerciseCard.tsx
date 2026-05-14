@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { useGymStore } from "../../app/store/gym.store";
 import { MUSCLE_META } from "../../entities/exercise/model/muscle-meta";
 import type {
   Exercise,
   TrainingDayTag,
 } from "../../entities/exercise/model/types";
+import { ConfirmModal } from "../../shared/ui/ConfirmModal/ConfirmModal";
+import { IconButton } from "../../ui/IconButton/IconButton";
 import { MySelect } from "../../ui/MySelect/MySelect";
 import cl from "./ExerciseCard.module.css";
 
@@ -15,6 +18,10 @@ type Props = {
 
 export const ExerciseCard = ({ exercise, onClick, onMoveToDay }: Props) => {
   const historyRef = useRef<HTMLDivElement>(null);
+
+  const removeExercise = useGymStore((state) => state.removeExercise);
+
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const DAYS: TrainingDayTag[] = [
     "день-1",
@@ -37,11 +44,31 @@ export const ExerciseCard = ({ exercise, onClick, onMoveToDay }: Props) => {
     });
   }, [exercise.history]);
 
-
   const meta = MUSCLE_META[exercise.muscleGroups as keyof typeof MUSCLE_META];
 
   return (
     <div className={cl.card} onClick={onClick}>
+      <IconButton
+        className={cl.closeBtn}
+        icon="×"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsConfirmOpen(true);
+        }}
+      />
+      {isConfirmOpen && (
+        <ConfirmModal
+          title="Удалить упражнение"
+          description="Вы уверены?"
+          btnCancelText="Отмена"
+          btnOkText="Удалить"
+          onConfirm={() => {
+            removeExercise(exercise.id);
+            setIsConfirmOpen(false);
+          }}
+          onCancel={() => setIsConfirmOpen(false)}
+        />
+      )}
       <div className={cl.left}>
         <div className={cl.tag}>
           {meta.icon && <img src={meta.icon} className={cl.icon} />}
@@ -60,6 +87,7 @@ export const ExerciseCard = ({ exercise, onClick, onMoveToDay }: Props) => {
           </div>
         ) : (
           <MySelect
+            label="День тренировки"
             className={cl.dayTag}
             value={exercise.trainingDay}
             autoFocus

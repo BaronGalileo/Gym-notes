@@ -3,6 +3,7 @@ import type { Exercise } from "../../entities/exercise/model/types";
 
 import { SaveWorkoutForm } from "../../features/add-workout/ui/SaveWorkoutForm";
 
+import { IconButton } from "../../ui/IconButton/IconButton";
 import { MyButton } from "../../ui/MyButton/MyButton";
 import cl from "./ExerciseModal.module.css";
 
@@ -22,6 +23,7 @@ export const ExerciseModal = ({ exercise, onClose }: Props) => {
       <div className={cl.overlay} onClick={onClose} />
 
       <div className={cl.modal}>
+        <IconButton className={cl.closeBtn} onClick={onClose} />
         <div className={cl.handle} />
 
         <h2>{exercise.title}</h2>

@@ -49,9 +49,8 @@ export const useGymStore = create<GymStore>()(
               (entry) => new Date(entry.createdAt).toDateString() === today,
             );
 
-            const FORCE_NEW = true;
 
-            if (!FORCE_NEW && existingIndex !== -1) {
+            if (existingIndex !== -1) {
               const updatedHistory = [...exercise.history];
 
               updatedHistory[existingIndex] = workout;

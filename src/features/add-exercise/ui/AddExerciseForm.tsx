@@ -1,12 +1,21 @@
 import { useState } from "react";
 import { useGymStore } from "../../../app/store/gym.store";
 import type {
+  Exercise,
   MuscleGroup,
   TrainingDayTag,
 } from "../../../entities/exercise/model/types";
+import { ConfirmModal } from "../../../shared/ui/ConfirmModal/ConfirmModal";
+import { IconButton } from "../../../ui/IconButton/IconButton";
 import { MyButton } from "../../../ui/MyButton/MyButton";
 import { MyInput } from "../../../ui/MyInput/MyInput";
 import { MySelect } from "../../../ui/MySelect/MySelect";
+import { ExerciseModal } from "../../../widgets/exercise-modal/ExerciseModal";
+import cl from "./AddExerciseForm.module.css";
+
+type Props = {
+  setIsVisible: (visible: boolean) => void;
+};
 
 const MUSCLES: MuscleGroup[] = [
   "chest",
@@ -40,50 +49,83 @@ const DAYS: TrainingDayTag[] = [
   "день-7",
 ];
 
-export const AddExerciseForm = () => {
+export const AddExerciseForm = ({ setIsVisible }: Props) => {
   const addExercise = useGymStore((state) => state.addExercise);
 
   const exercises = useGymStore((state) => state.exercises);
 
   const [title, setTitle] = useState("");
 
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
+    null,
+  );
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
   const [muscle, setMuscle] = useState<MuscleGroup>("chest");
 
   const [day, setDay] = useState<TrainingDayTag>("день-1");
 
   const handleAdd = () => {
-    const exists = exercises.some(
+    const existingExercise = exercises.find(
       (ex) => ex.title.trim().toLowerCase() === title.trim().toLowerCase(),
     );
 
-    if (exists) {
-      alert("Упражнение уже существует");
+    if (existingExercise) {
+      setIsConfirmOpen(true)
+      setSelectedExercise(existingExercise);
       return;
+    } else {
+      addExercise({
+        id: crypto.randomUUID(),
+        title,
+        muscleGroups: muscle,
+        trainingDay: day,
+        history: [],
+      });
+
+      setTitle("");
+      setIsVisible(false);
     }
+  };
 
-
-    addExercise({
-      id: crypto.randomUUID(),
-      title,
-      muscleGroups: muscle,
-      trainingDay: day,
-      history: [],
-    });
-
-    setTitle("");
+  const handleConfirm = () => {
+    setIsOpenModal(true);
+    setIsConfirmOpen(false);
   };
 
   return (
-    <div>
+    <div className={cl.wrapper}>
+      {isConfirmOpen && selectedExercise &&(
+        <ConfirmModal
+          title="Упражнение есть"
+          description={`Перейти в ${selectedExercise.title}`}
+          btnCancelText="Назад"
+          btnOkText="Перейти"
+          onConfirm={() => {
+            setIsOpenModal(true);
+            handleConfirm();
+          }}
+          onCancel={() => setSelectedExercise(null)}
+        />
+      )}
+      {isOpenModal && selectedExercise && (
+        <ExerciseModal
+          exercise={selectedExercise}
+          onClose={() => setSelectedExercise(null)}
+        />
+      )}
+      <IconButton className={cl.closeBtn} onClick={() => setIsVisible(false)} />
+      <h2>Новое упражнение</h2>
       <MyInput
+        label="Введите название упражнения"
         placeholder="Название упражнения"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-
-      <br />
-
       <MySelect
+        label="Группа мышц"
         value={muscle}
         onChange={(e) => setMuscle(e.target.value as MuscleGroup)}
       >
@@ -94,9 +136,8 @@ export const AddExerciseForm = () => {
         ))}
       </MySelect>
 
-      <br />
-
       <MySelect
+        label="День тренировки"
         value={day}
         onChange={(e) => setDay(e.target.value as TrainingDayTag)}
       >
@@ -109,7 +150,9 @@ export const AddExerciseForm = () => {
 
       <br />
 
-      <MyButton onClick={handleAdd}>Add</MyButton>
+      <MyButton disabled={!title} onClick={handleAdd}>
+        Добавить
+      </MyButton>
     </div>
   );
 };

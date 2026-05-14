@@ -1,23 +1,42 @@
-import type {
-  ReactNode,
-  SelectHTMLAttributes
-} from 'react'
-import cl from './MySelect.module.css'
+import type { ReactNode, SelectHTMLAttributes } from "react";
 
-type Props =
-  SelectHTMLAttributes<HTMLSelectElement> & {
-    children: ReactNode
-  }
+import cl from "./MySelect.module.css";
 
-export const MySelect = ({
-  children,
-  ...props
-}: Props) => {
+type Props = SelectHTMLAttributes<HTMLSelectElement> & {
+  children: ReactNode;
+  label?: string;
+};
+
+export const MySelect = ({ children, label, ...props }: Props) => {
   return (
-    <select className={cl.mySelect} {...props}>
-      {children}
-    </select>
-  )
-}
+    <div className={cl.field}>
+      {label && <label className={cl.label}>{label}</label>}
 
+      <select className={cl.mySelect} {...props}>
+        {children}
+      </select>
+    </div>
+  );
+};
 
+// import type {
+//   ReactNode,
+//   SelectHTMLAttributes
+// } from 'react'
+// import cl from './MySelect.module.css'
+
+// type Props =
+//   SelectHTMLAttributes<HTMLSelectElement> & {
+//     children: ReactNode
+//   }
+
+// export const MySelect = ({
+//   children,
+//   ...props
+// }: Props) => {
+//   return (
+//     <select className={cl.mySelect} {...props}>
+//       {children}
+//     </select>
+//   )
+// }
