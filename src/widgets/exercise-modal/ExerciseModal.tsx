@@ -48,7 +48,9 @@ export const ExerciseModal = ({ exercise, onClose }: Props) => {
             </div>
           ))}
         </div>
-        <SaveWorkoutForm exercise={exercise} onClose={onClose}/>
+        <div className={cl.formWrapper}>
+          <SaveWorkoutForm exercise={exercise} onClose={onClose} />
+        </div>
       </div>
     </>
   );

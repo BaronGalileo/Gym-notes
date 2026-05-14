@@ -19,7 +19,7 @@
 
   border-radius: 24px 24px 0 0;
 
-  z-index: 20;
+  z-index: 60;
 
   padding: 14px;
 
@@ -32,6 +32,10 @@
 
   overflow: hidden;
 }
+
+/* .formWrapper {
+  flex-shrink: 0;
+} */
 
 @keyframes up {
   from {
@@ -80,7 +84,7 @@ h2 {
 
   padding-right: 4px;
 
-  max-height: 220px;
+  max-height: 0;
 
   margin-bottom: 14px;
 }
