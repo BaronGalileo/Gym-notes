@@ -1,0 +1,57 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  margin: 6px 0 4px;
+}
+
+.activeButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 12px;
+
+  border-radius: 12px;
+  background: #786836;
+  color: white;
+
+  border: 1px solid #333;
+}
+
+.arrow {
+  transition: 0.2s;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  z-index: 100;
+}
+
+.item {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+
+  background: transparent;
+  color: white;
+  border: none;
+}
+
+.item:hover {
+  background: #2a2a2a;
+}

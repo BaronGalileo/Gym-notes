@@ -1,24 +1,27 @@
 import { useMemo, useState } from "react";
-
 import { useGymStore } from "../../../app/store/gym.store";
-
 import type {
   Exercise,
   WorkoutSet,
 } from "../../../entities/exercise/model/types";
+
 import { MyButton } from "../../../ui/MyButton/MyButton";
 import { MyInput } from "../../../ui/MyInput/MyInput";
+
 import cl from "./SaveWorkoutForm.module.css";
 
 type Props = {
   exercise: Exercise;
+
   onClose: () => void;
 };
 
 const DEFAULT_SETS: WorkoutSet[] = [
   {
     id: crypto.randomUUID(),
+
     reps: 10,
+
     weight: 0,
   },
 ];
@@ -26,21 +29,42 @@ const DEFAULT_SETS: WorkoutSet[] = [
 export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
   const saveWorkout = useGymStore((state) => state.saveWorkout);
 
+  const activeProfileId = useGymStore((state) => state.activeProfileId);
+
+  const profileData = useMemo(() => {
+    if (!activeProfileId) {
+      return {
+        trainingDay: "день-1" as const,
+
+        history: [],
+      };
+    }
+
+    return (
+      exercise.profiles[activeProfileId] ?? {
+        trainingDay: "день-1" as const,
+
+        history: [],
+      }
+    );
+  }, [exercise.profiles, activeProfileId]);
+
   const todayWorkout = useMemo(() => {
-    return exercise.history.find(
+    return profileData.history.find(
       (entry) =>
         new Date(entry.createdAt).toDateString() === new Date().toDateString(),
     );
-  }, [exercise.history]);
+  }, [profileData.history]);
 
   const lastWorkout = useMemo(() => {
-    return todayWorkout ?? exercise.history[exercise.history.length - 1];
-  }, [exercise.history, todayWorkout]);
+    return todayWorkout ?? profileData.history[profileData.history.length - 1];
+  }, [profileData.history, todayWorkout]);
 
   const [sets, setSets] = useState<WorkoutSet[]>(
     lastWorkout
       ? lastWorkout.sets.map((set) => ({
           ...set,
+
           weight: set.weight ?? lastWorkout.sets[0]?.weight ?? 0,
         }))
       : DEFAULT_SETS,
@@ -58,6 +82,7 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
         i === index
           ? {
               ...set,
+
               [field]: value,
             }
           : set,
@@ -73,31 +98,40 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
         ...prev,
         {
           id: crypto.randomUUID(),
+
           reps: lastSet?.reps ?? 10,
+
           weight: lastSet?.weight ?? 0,
         },
       ];
     });
   };
 
-
   const removeSet = (id: string) => {
     setSets((prev) => {
-      if (prev.length <= 1) return prev;
+      if (prev.length <= 1) {
+        return prev;
+      }
+
       return prev.filter((set) => set.id !== id);
     });
   };
 
   const handleSaveWorkout = () => {
     const normalizedComment = /^\d+$/.test(comment.trim())
-    ? `${comment.trim()} повт.`
-    : comment.trim();
+      ? `${comment.trim()} повт.`
+      : comment.trim();
+
     saveWorkout(exercise.id, {
       id: todayWorkout?.id ?? crypto.randomUUID(),
+
       createdAt: todayWorkout?.createdAt ?? new Date().toISOString(),
+
       comment: normalizedComment,
+
       sets,
     });
+
     onClose();
   };
 
@@ -113,7 +147,7 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
               onChange={(e) =>
                 updateSet(index, "weight", Number(e.target.value))
               }
-              placeholder="Вес снаряда"
+              placeholder="Вес"
             />
 
             <MyInput
@@ -121,7 +155,7 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
               type="number"
               value={set.reps}
               onChange={(e) => updateSet(index, "reps", Number(e.target.value))}
-              placeholder="Количество повторов"
+              placeholder="Повторы"
             />
 
             <MyButton
@@ -155,59 +189,3 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
     </div>
   );
 };
-
-//   return (
-//     <div>
-//       {sets.map((set, index) => (
-//         <div
-//           key={index}
-//           style={{
-//             display: "flex",
-//             alignItems: "center",
-//             gap: 8,
-//             marginBottom: 10,
-//           }}
-//         >
-//           <div>
-//             <MyInput
-//               label="Kg"
-//               type="number"
-//               value={set.weight}
-//               onChange={(e) =>
-//                 updateSet(index, "weight", Number(e.target.value))
-//               }
-//               placeholder="kg"
-//             />
-//           </div>
-//           <div>
-//             <MyInput
-//               label="Повторы"
-//               type="number"
-//               value={set.reps}
-//               onChange={(e) => updateSet(index, "reps", Number(e.target.value))}
-//               placeholder="reps"
-//             />
-//           </div>
-//           <MyButton
-//             style={{ height: "50%", background: "red" }}
-//             onClick={() => removeSet(set.id)}
-//           >
-//             -
-//           </MyButton>
-//         </div>
-//       ))}
-//       <div>
-//         <MyInput
-//           value={comment}
-//           onChange={(e) => setComment(e.target.value)}
-//           placeholder="комментарий"
-//         />
-//       </div>
-
-//       <MyButton onClick={addSet}>+ Set</MyButton>
-//       <br />
-
-//       <MyButton onClick={handleSaveWorkout}>Сохранить</MyButton>
-//     </div>
-//   );
-// };

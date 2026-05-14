@@ -59,7 +59,7 @@ export const AddExerciseForm = ({ setIsVisible }: Props) => {
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
     null,
   );
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -73,18 +73,15 @@ export const AddExerciseForm = ({ setIsVisible }: Props) => {
     );
 
     if (existingExercise) {
-      setIsConfirmOpen(true)
+      setIsConfirmOpen(true);
       setSelectedExercise(existingExercise);
       return;
     } else {
       addExercise({
-        id: crypto.randomUUID(),
         title,
         muscleGroups: muscle,
         trainingDay: day,
-        history: [],
       });
-
       setTitle("");
       setIsVisible(false);
     }
@@ -97,7 +94,7 @@ export const AddExerciseForm = ({ setIsVisible }: Props) => {
 
   return (
     <div className={cl.wrapper}>
-      {isConfirmOpen && selectedExercise &&(
+      {isConfirmOpen && selectedExercise && (
         <ConfirmModal
           title="Упражнение есть"
           description={`Перейти в ${selectedExercise.title}`}

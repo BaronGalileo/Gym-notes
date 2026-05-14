@@ -1,18 +1,78 @@
+// type WorkoutSet = {
+//   id: string;
+//   reps: number;
+//   weight: number;
+// };
+
+// type WorkoutEntry = {
+//   id: string;
+//   createdAt: string;
+
+//   comment?: string;
+
+//   sets: WorkoutSet[];
+// };
+
+// type MuscleGroup =
+//   | "chest"
+//   | "back"
+//   | "legs"
+//   | "shoulders"
+//   | "biceps"
+//   | "triceps"
+//   | "abs"
+//   | "calves";
+
+// type TrainingDayTag =
+//   | "день-1"
+//   | "день-2"
+//   | "день-3"
+//   | "день-4"
+//   | "день-5"
+//   | "день-6"
+//   | "день-7";
+
+// type Exercise = {
+//   id: string;
+
+//   title: string;
+
+//   muscleGroups: MuscleGroup;
+
+//   trainingDay: TrainingDayTag;
+
+//   image?: string;
+
+//   notes?: string;
+
+//   history: WorkoutEntry[];
+// };
+
+// export type {
+//   Exercise,
+//   MuscleGroup,
+//   TrainingDayTag,
+//   WorkoutEntry,
+//   WorkoutSet
+// };
+
 type WorkoutSet = {
   id: string;
+
   reps: number;
+
   weight: number;
 };
 
 type WorkoutEntry = {
   id: string;
+
   createdAt: string;
 
   comment?: string;
 
   sets: WorkoutSet[];
 };
-
 
 type MuscleGroup =
   | "chest"
@@ -33,6 +93,12 @@ type TrainingDayTag =
   | "день-6"
   | "день-7";
 
+type ExerciseProfileData = {
+  trainingDay: TrainingDayTag;
+
+  history: WorkoutEntry[];
+};
+
 type Exercise = {
   id: string;
 
@@ -40,18 +106,24 @@ type Exercise = {
 
   muscleGroups: MuscleGroup;
 
-  trainingDay: TrainingDayTag;
+  profiles: Record<string, ExerciseProfileData>;
 
   image?: string;
 
   notes?: string;
+};
 
-  history: WorkoutEntry[];
+type Profile = {
+  id: string;
+
+  name: string;
 };
 
 export type {
   Exercise,
+  ExerciseProfileData,
   MuscleGroup,
+  Profile,
   TrainingDayTag,
   WorkoutEntry,
   WorkoutSet

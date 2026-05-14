@@ -1,0 +1,30 @@
+.wrapper {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  gap: 10px;
+
+  padding: 18px 0 18px 0;
+
+  border-radius: 16px;
+
+  background: #7f8167;
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.closeBtn {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+}

@@ -47,10 +47,5 @@ export const MyInput = ({ label, ...props }: Props) => {
         )}
       </div>
     </div>
-    // <div className={cl.field}>
-    //   {label && <label className={cl.label}>{label}</label>}
-
-    //   <input className={cl.myInput} {...props} />
-    // </div>
   );
 };
