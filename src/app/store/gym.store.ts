@@ -25,7 +25,7 @@ type GymStore = {
 
 export const useGymStore = create<GymStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       exercises: [],
 
       addExercise: (exercise) =>
