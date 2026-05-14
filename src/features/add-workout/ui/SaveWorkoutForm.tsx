@@ -26,7 +26,6 @@ const DEFAULT_SETS: WorkoutSet[] = [
 export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
   const saveWorkout = useGymStore((state) => state.saveWorkout);
 
-
   const todayWorkout = useMemo(() => {
     return exercise.history.find(
       (entry) =>
@@ -67,99 +66,95 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
   };
 
   const addSet = () => {
-    setSets((prev) => [
-      ...prev,
-      {
-        id: crypto.randomUUID(),
-        reps: 10,
-        weight: 0,
-      },
-    ]);
-  };
-
-  const removeSet = (id: string) => {
     setSets((prev) => {
-      if (prev.length <= 1) return prev; // 👈 защита
+      const lastSet = prev[prev.length - 1];
 
-      return prev.filter((set) => set.id !== id);
+      return [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          reps: lastSet?.reps ?? 10,
+          weight: lastSet?.weight ?? 0,
+        },
+      ];
     });
   };
 
 
+  const removeSet = (id: string) => {
+    setSets((prev) => {
+      if (prev.length <= 1) return prev;
+      return prev.filter((set) => set.id !== id);
+    });
+  };
+
   const handleSaveWorkout = () => {
+    const normalizedComment = /^\d+$/.test(comment.trim())
+    ? `${comment.trim()} повт.`
+    : comment.trim();
     saveWorkout(exercise.id, {
       id: todayWorkout?.id ?? crypto.randomUUID(),
       createdAt: todayWorkout?.createdAt ?? new Date().toISOString(),
-      comment,
+      comment: normalizedComment,
       sets,
     });
     onClose();
   };
 
-return (
-  <div className={cl.form}>
-    <div className={cl.sets}>
-      {sets.map((set, index) => (
-        <div key={set.id} className={cl.setCard}>
-          <MyInput
-            label="Kg"
-            type="number"
-            value={set.weight}
-            onChange={(e) =>
-              updateSet(index, "weight", Number(e.target.value))
-            }
-            placeholder="0"
-          />
+  return (
+    <div className={cl.form}>
+      <div className={cl.sets}>
+        {sets.map((set, index) => (
+          <div key={set.id} className={cl.setCard}>
+            <MyInput
+              label="Kg"
+              type="number"
+              value={set.weight}
+              onChange={(e) =>
+                updateSet(index, "weight", Number(e.target.value))
+              }
+              placeholder="Вес снаряда"
+            />
 
-          <MyInput
-            label="Повторы"
-            type="number"
-            value={set.reps}
-            onChange={(e) =>
-              updateSet(index, "reps", Number(e.target.value))
-            }
-            placeholder="10"
-          />
+            <MyInput
+              label="Повторы"
+              type="number"
+              value={set.reps}
+              onChange={(e) => updateSet(index, "reps", Number(e.target.value))}
+              placeholder="Количество повторов"
+            />
 
-          <MyButton
-            className={cl.removeBtn}
-            onClick={() => removeSet(set.id)}
-          >
-            Х
-          </MyButton>
-        </div>
-      ))}
+            <MyButton
+              className={cl.removeBtn}
+              onClick={() => removeSet(set.id)}
+            >
+              Х
+            </MyButton>
+          </div>
+        ))}
+      </div>
+
+      <div className={cl.comment}>
+        <MyInput
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Комментарий"
+          label="Комментарий"
+        />
+      </div>
+
+      <div className={cl.actions}>
+        <MyButton className={cl.addBtn} onClick={addSet}>
+          + подход
+        </MyButton>
+
+        <MyButton className={cl.saveBtn} onClick={handleSaveWorkout}>
+          Сохранить
+        </MyButton>
+      </div>
     </div>
-
-    <div className={cl.comment}>
-      <MyInput
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-        placeholder="Комментарий"
-        label="Комментарий"
-      />
-    </div>
-
-    <div className={cl.actions}>
-      <MyButton className={cl.addBtn} onClick={addSet}>
-        + подход
-      </MyButton>
-
-      <MyButton
-        className={cl.saveBtn}
-        onClick={handleSaveWorkout}
-      >
-        Сохранить
-      </MyButton>
-    </div>
-  </div>
-);
-}
-
-
-
-
-
+  );
+};
 
 //   return (
 //     <div>
