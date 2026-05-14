@@ -47,6 +47,7 @@ const DAYS: TrainingDayTag[] = [
 
 export const ExercisesList = () => {
   const exercises = useGymStore((state) => state.exercises);
+  const activeProfileId = useGymStore((s) => s.activeProfileId);
 
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
     null,
@@ -60,17 +61,19 @@ export const ExercisesList = () => {
 
   const filteredExercises = useMemo(() => {
     return exercises.filter((exercise) => {
+      const profile = exercise.profiles?.[activeProfileId];
+
       const matchMuscle =
         selectedMuscle === "all"
           ? true
           : exercise.muscleGroups.includes(selectedMuscle);
 
       const matchDay =
-        selectedDay === "all" ? true : exercise.trainingDay === selectedDay;
+        selectedDay === "all" ? true : profile?.trainingDay === selectedDay;
 
       return matchMuscle && matchDay;
     });
-  }, [exercises, selectedMuscle, selectedDay]);
+  }, [exercises, selectedMuscle, selectedDay, activeProfileId]);
 
   const moveExerciseToDay = useGymStore((state) => state.moveExerciseToDay);
 
