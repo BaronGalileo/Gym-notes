@@ -1,125 +1,3 @@
-// import { create } from "zustand";
-// import { persist } from "zustand/middleware";
-
-// import type {
-//   Exercise,
-//   TrainingDayTag,
-//   WorkoutEntry,
-// } from "../../entities/exercise/model/types";
-
-// import { indexedDBStorage } from "./indexedDBStorage";
-
-// type Profile = {
-//   id: string;
-//   name: string;
-// };
-
-// type GymStore = {
-//   exercises: Exercise[];
-
-//   profiles: Profile[];
-//   activeProfileId: string | null;
-
-//   addProfile: (name: string) => void;
-//   setActiveProfile: (id: string) => void;
-
-//   addExercise: (exercise: Exercise) => void;
-//   removeExercise: (exerciseId: string) => void;
-//   saveWorkout: (exerciseId: string, workout: WorkoutEntry) => void;
-//   moveExerciseToDay: (exerciseId: string, newDay: TrainingDayTag) => void;
-//   reset: () => void;
-// };
-
-// const defaultProfileId = crypto.randomUUID();
-
-// export const useGymStore = create<GymStore>()(
-//   persist(
-//     (set) => ({
-//       profiles: [
-//         {
-//           id: defaultProfileId,
-//           name: "Мой",
-//         },
-//       ],
-
-//       activeProfileId: defaultProfileId,
-//       exercises: [],
-
-//       addProfile: (name) =>
-//         set((state) => ({
-//           profiles: [...state.profiles, { id: crypto.randomUUID(), name }],
-//         })),
-
-//       setActiveProfile: (id) =>
-//         set(() => ({
-//           activeProfileId: id,
-//         })),
-
-//       addExercise: (exercise) =>
-//         set((state) => ({
-//           exercises: [...state.exercises, exercise],
-//         })),
-
-//       removeExercise: (exerciseId) =>
-//         set((state) => ({
-//           exercises: state.exercises.filter((ex) => ex.id !== exerciseId),
-//         })),
-
-//       saveWorkout: (exerciseId, workout) =>
-//         set((state) => ({
-//           exercises: state.exercises.map((exercise) => {
-//             if (exercise.id !== exerciseId) return exercise;
-
-//             const today = new Date().toDateString();
-
-//             const existingIndex = exercise.history.findIndex(
-//               (entry) => new Date(entry.createdAt).toDateString() === today,
-//             );
-
-//             if (existingIndex !== -1) {
-//               const updatedHistory = [...exercise.history];
-
-//               updatedHistory[existingIndex] = workout;
-
-//               return {
-//                 ...exercise,
-//                 history: updatedHistory,
-//               };
-//             }
-
-//             return {
-//               ...exercise,
-//               history: [...exercise.history, workout],
-//             };
-//           }),
-//         })),
-
-//       moveExerciseToDay: (exerciseId, newDay) =>
-//         set((state) => ({
-//           exercises: state.exercises.map((ex) =>
-//             ex.id === exerciseId ? { ...ex, trainingDay: newDay } : ex,
-//           ),
-//         })),
-
-//       reset: () =>
-//         set(() => ({
-//           exercises: [],
-//         })),
-//     }),
-//     {
-//       name: "gym-storage",
-
-//       storage: indexedDBStorage,
-
-//       partialize: (state) => ({
-//         exercises: state.exercises,
-//         profiles: state.profiles,
-//         activeProfileId: state.activeProfileId,
-//       }),
-//     },
-//   ),
-// );
-
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -160,10 +38,12 @@ type GymStore = {
 
   moveExerciseToDay: (exerciseId: string, newDay: TrainingDayTag) => void;
 
+  removeProfile: (id: string) => void;
+
   reset: () => void;
 };
 
-const defaultProfileId = crypto.randomUUID();
+const defaultProfileId = "default-profile";
 
 export const useGymStore = create<GymStore>()(
   persist(
@@ -176,6 +56,27 @@ export const useGymStore = create<GymStore>()(
       ],
 
       activeProfileId: defaultProfileId,
+
+      removeProfile: (id) =>
+        set((state) => {
+          if (id === defaultProfileId) return state;
+
+          const filtered = state.profiles.filter((p) => p.id !== id);
+
+          let newActiveId = state.activeProfileId;
+
+          if (state.activeProfileId === id) {
+            newActiveId =
+              filtered.find((p) => p.id === defaultProfileId)?.id ??
+              filtered[0]?.id ??
+              defaultProfileId;
+          }
+
+          return {
+            profiles: filtered,
+            activeProfileId: newActiveId,
+          };
+        }),
 
       exercises: [],
 

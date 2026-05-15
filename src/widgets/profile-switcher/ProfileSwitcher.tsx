@@ -1,53 +1,21 @@
-// import { useGymStore } from "../../app/store/gym.store";
-
-// import cl from "./ProfileSwitcher.module.css";
-
-// export const ProfileSwitcher = () => {
-//   const profiles = useGymStore(
-//     (state) => state.profiles,
-//   );
-
-//   const activeProfileId = useGymStore(
-//     (state) => state.activeProfileId,
-//   );
-
-//   const setActiveProfile = useGymStore(
-//     (state) => state.setActiveProfile,
-//   );
-
-//   return (
-//     <div className={cl.wrapper}>
-//       {profiles.map((profile) => {
-//         const active =
-//           profile.id === activeProfileId;
-
-//         return (
-//           <button
-//             key={profile.id}
-//             className={`${cl.profile} ${
-//               active ? cl.active : ""
-//             }`}
-//             onClick={() =>
-//               setActiveProfile(profile.id)
-//             }
-//           >
-//             {profile.name}
-//           </button>
-//         );
-//       })}
-//     </div>
-//   );
-// };
-
 import { useState } from "react";
 import { useGymStore } from "../../app/store/gym.store";
 
+import type { Profile } from "../../entities/exercise/model/types";
+import { AddProfileForm } from "../../features/add-profile/ui/AddProfileForm";
+import { ConfirmModal } from "../../shared/ui/ConfirmModal/ConfirmModal";
+import { IconButton } from "../../ui/IconButton/IconButton";
+import { MyButton } from "../../ui/MyButton/MyButton";
 import cl from "./ProfileSwitcher.module.css";
 
 export const ProfileSwitcher = () => {
   const profiles = useGymStore((s) => s.profiles);
   const activeProfileId = useGymStore((s) => s.activeProfileId);
   const setActiveProfile = useGymStore((s) => s.setActiveProfile);
+  const removeProfile = useGymStore((s) => s.removeProfile);
+  const [isProfileVisible, setIsProfileVisible] = useState(false);
+  const [confirmProfile, setConfirmProfile] = useState<Profile | null>(null);
+  console.log("profiles", profiles);
 
   const [open, setOpen] = useState(false);
 
@@ -57,14 +25,12 @@ export const ProfileSwitcher = () => {
 
   return (
     <div className={cl.wrapper}>
-      {/* активный */}
       <button className={cl.activeButton} onClick={() => setOpen((v) => !v)}>
         <span>{activeProfile?.name ?? "Профиль"}</span>
 
         <span className={`${cl.arrow} ${open ? cl.rotated : ""}`}>▼</span>
       </button>
 
-      {/* dropdown */}
       {open && (
         <div className={cl.dropdown}>
           {otherProfiles.map((profile) => (
@@ -77,8 +43,38 @@ export const ProfileSwitcher = () => {
               }}
             >
               {profile.name}
+              {profile.id !== "default-profile" &&
+                <IconButton
+                className={cl.closeBtn}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setConfirmProfile(profile);
+                }}
+              />
+              }
             </button>
           ))}
+          {isProfileVisible ? (
+            <AddProfileForm setIsVisible={setIsProfileVisible} />
+          ) : (
+            <MyButton onClick={() => setIsProfileVisible(true)}>
+              Добавить профиль
+            </MyButton>
+          )}
+          {confirmProfile && (
+            <ConfirmModal
+              title={`Удалить профиль ${confirmProfile.name}`}
+              description="Все данные профиля будут удалены"
+              btnCancelText="Отмена"
+              btnOkText="Удалить"
+              onCancel={() => setConfirmProfile(null)}
+              onConfirm={() => {
+                removeProfile(confirmProfile.id);
+                setConfirmProfile(null);
+                setOpen(false);
+              }}
+            />
+          )}
         </div>
       )}
     </div>

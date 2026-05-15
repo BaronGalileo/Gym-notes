@@ -69,7 +69,9 @@ export const AddExerciseForm = ({ setIsVisible }: Props) => {
 
   const handleAdd = () => {
     const existingExercise = exercises.find(
-      (ex) => ex.title.trim().toLowerCase() === title.trim().toLowerCase(),
+      (ex) =>
+        ex.title.trim().toLowerCase() === title.trim().toLowerCase() &&
+        ex.muscleGroups === muscle,
     );
 
     if (existingExercise) {

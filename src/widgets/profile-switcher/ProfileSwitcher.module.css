@@ -13,7 +13,7 @@
   padding: 10px 12px;
 
   border-radius: 12px;
-  background: #786836;
+  background: #000000;
   color: white;
 
   border: 1px solid #333;
@@ -29,6 +29,7 @@
 
 .dropdown {
   position: absolute;
+  padding: 10px 0 10px;
   top: 110%;
   left: 0;
   right: 0;
@@ -43,6 +44,7 @@
 }
 
 .item {
+  position: relative;
   width: 100%;
   text-align: left;
   padding: 10px 12px;
@@ -50,6 +52,12 @@
   background: transparent;
   color: white;
   border: none;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
 }
 
 .item:hover {
