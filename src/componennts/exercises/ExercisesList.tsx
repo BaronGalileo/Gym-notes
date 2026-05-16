@@ -69,7 +69,9 @@ export const ExercisesList = () => {
           : exercise.muscleGroups.includes(selectedMuscle);
 
       const matchDay =
-        selectedDay === "all" ? true : profile?.trainingDay === selectedDay;
+        selectedDay === "all"
+          ? true
+          : (profile?.trainingDay ?? "день-1") === selectedDay;
 
       return matchMuscle && matchDay;
     });
