@@ -40,6 +40,8 @@ type GymStore = {
 
   removeProfile: (id: string) => void;
 
+  removeWorkout: (exerciseId: string, workoutId: string) => void;
+
   reset: () => void;
 };
 
@@ -121,6 +123,34 @@ export const useGymStore = create<GymStore>()(
           ],
         }));
       },
+
+      removeWorkout: (exerciseId, workoutId) =>
+        set((state) => ({
+          exercises: state.exercises.map((exercise) => {
+            if (exercise.id !== exerciseId) {
+              return exercise;
+            }
+
+            return {
+              ...exercise,
+
+              profiles: Object.fromEntries(
+                Object.entries(exercise.profiles).map(
+                  ([profileId, profile]) => [
+                    profileId,
+                    {
+                      ...profile,
+
+                      history: profile.history.filter(
+                        (workout) => workout.id !== workoutId,
+                      ),
+                    },
+                  ],
+                ),
+              ),
+            };
+          }),
+        })),
 
       removeExercise: (exerciseId) =>
         set((state) => ({

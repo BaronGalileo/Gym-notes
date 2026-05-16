@@ -77,17 +77,17 @@ h2 {
 .history {
   display: flex;
   flex-direction: column;
-
-  gap: 10px;
+  gap: 4px;
 
   overflow-y: auto;
 
   padding-right: 4px;
 
-  max-height: 0;
+  max-height: 300px;
 
   margin-bottom: 14px;
 }
+
 
 .historyItem {
   background: #202020;
@@ -106,7 +106,7 @@ h2 {
 
 .setRow {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 
   font-size: 14px;
 

@@ -60,15 +60,36 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
     return todayWorkout ?? profileData.history[profileData.history.length - 1];
   }, [profileData.history, todayWorkout]);
 
-  const [sets, setSets] = useState<WorkoutSet[]>(
-    lastWorkout
-      ? lastWorkout.sets.map((set) => ({
-          ...set,
+  const [sets, setSets] = useState<WorkoutSet[]>(() => {
+    if (!lastWorkout) {
+      return DEFAULT_SETS;
+    }
 
-          weight: set.weight ?? lastWorkout.sets[0]?.weight ?? 0,
-        }))
-      : DEFAULT_SETS,
-  );
+
+    const isToday =
+      new Date(lastWorkout.createdAt).toDateString() ===
+      new Date().toDateString();
+
+    if (isToday) {
+      return lastWorkout.sets.map((set) => ({
+        ...set,
+
+        weight: set.weight ?? lastWorkout.sets[0]?.weight ?? 0,
+      }));
+    }
+
+    const lastSet = lastWorkout.sets[lastWorkout.sets.length - 1];
+
+    return [
+      {
+        id: crypto.randomUUID(),
+
+        reps: lastSet?.reps ?? 10,
+
+        weight: lastSet?.weight ?? 0,
+      },
+    ];
+  });
 
   const [comment, setComment] = useState<string>("");
 

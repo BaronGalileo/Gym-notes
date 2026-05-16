@@ -41,6 +41,10 @@ export const ExerciseCard = ({ exercise, onClick, onMoveToDay }: Props) => {
 
   const activeProfileId = useGymStore((state) => state.activeProfileId);
 
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+
+  const removeWorkout = useGymStore((state) => state.removeWorkout);
+
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const [isEditingDay, setIsEditingDay] = useState(false);
@@ -155,6 +159,9 @@ export const ExerciseCard = ({ exercise, onClick, onMoveToDay }: Props) => {
             const lastSet = entry.sets[entry.sets.length - 1];
 
             const isLast = index === profileData.history.length - 1;
+            const isToday =
+              new Date(entry.createdAt).toDateString() ===
+              new Date().toDateString();
 
             return (
               <div
@@ -163,6 +170,27 @@ export const ExerciseCard = ({ exercise, onClick, onMoveToDay }: Props) => {
                   isLast ? cl.activeHistoryItem : ""
                 }`}
               >
+                {isToday && (
+                  <IconButton
+                    className={cl.closeBtn}
+                    style={{ scale: "0.6", color: confirmDeleteId === entry.id ? "#ff4d4f" : "white", }}
+                    icon={confirmDeleteId === entry.id ? "!" : "×"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (confirmDeleteId === entry.id) {
+                        removeWorkout(exercise.id, entry.id);
+                        setConfirmDeleteId(null);
+                        return;
+                      }
+                      setConfirmDeleteId(entry.id);
+                      setTimeout(() => {
+                        setConfirmDeleteId((current) =>
+                          current === entry.id ? null : current,
+                        );
+                      }, 1500);
+                    }}
+                  />
+                )}
                 <p>{new Date(entry.createdAt).toLocaleDateString()}</p>
 
                 {entry.comment && <p>{entry.comment}</p>}
