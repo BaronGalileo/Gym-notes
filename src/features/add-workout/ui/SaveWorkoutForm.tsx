@@ -49,6 +49,7 @@ export const SaveWorkoutForm = ({ exercise, onClose }: Props) => {
     );
   }, [exercise.profiles, activeProfileId]);
 
+
   const todayWorkout = useMemo(() => {
     return profileData.history.find(
       (entry) =>

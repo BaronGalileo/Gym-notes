@@ -12,7 +12,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-
   height: 88vh;
 
   background: #151515;
@@ -29,13 +28,11 @@
 
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   overflow: hidden;
 }
 
-/* .formWrapper {
-  flex-shrink: 0;
-} */
 
 @keyframes up {
   from {
@@ -77,20 +74,17 @@ h2 {
 .history {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-
+  gap: 2px;
   overflow-y: auto;
-
-  padding-right: 4px;
-
-  max-height: 300px;
-
-  margin-bottom: 14px;
+  max-height: 500px;
+  scrollbar-width: none;
+  margin: 6px 0 6px;
 }
 
 
 .historyItem {
   background: #202020;
+  width: 50vw;
 
   padding: 12px;
 
@@ -98,19 +92,14 @@ h2 {
 }
 
 .historyDate {
-  font-size: 13px;
-  color: #999;
-
-  margin-bottom: 8px;
+  font-size: 12px;
+  color: #d0d317;
 }
 
 .setRow {
   display: flex;
   justify-content: center;
-
-  font-size: 14px;
-
-  padding: 2px 0;
+  font-size: 12px;
 }
 
 .expandBtn {
