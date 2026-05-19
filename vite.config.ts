@@ -13,9 +13,9 @@ export default defineConfig({
         name: "Gym Notes",
         short_name: "Gym",
 
-        theme_color: "#151515",
+        theme_color: "#d6b2b2",
 
-        background_color: "#151515",
+        background_color: "#d6b2b2",
 
         display: "standalone",
 
