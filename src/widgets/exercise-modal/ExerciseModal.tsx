@@ -13,11 +13,11 @@ import cl from "./ExerciseModal.module.css";
 
 type Props = {
   exercise: Exercise;
-
   onClose: () => void;
+  dataTestId?: string;
 };
 
-export const ExerciseModal = ({ exercise, onClose }: Props) => {
+export const ExerciseModal = ({ exercise, onClose, dataTestId }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   const activeProfileId = useGymStore((state) => state.activeProfileId);
@@ -47,7 +47,7 @@ export const ExerciseModal = ({ exercise, onClose }: Props) => {
 
   return (
     <>
-      <div className={cl.overlay} onClick={onClose} />
+      <div className={cl.overlay} data-testid={dataTestId} onClick={onClose} />
 
       <div className={cl.modal}>
         <IconButton className={cl.closeBtn} onClick={onClose} />

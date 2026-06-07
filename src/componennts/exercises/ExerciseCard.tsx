@@ -84,6 +84,7 @@ export const ExerciseCard = ({ exercise, onClick, onMoveToDay }: Props) => {
   return (
     <div className={cl.card} onClick={onClick}>
       <IconButton
+        data-testid={`btn-remove-exercise ${exercise.title}`}
         className={cl.closeBtn}
         icon="×"
         onClick={(e) => {
@@ -95,6 +96,7 @@ export const ExerciseCard = ({ exercise, onClick, onMoveToDay }: Props) => {
 
       {isConfirmOpen && (
         <ConfirmModal
+          dataTestId="modal-remove-exercise"
           title="Удалить упражнение"
           description="Вы уверены?"
           btnCancelText="Отмена"
@@ -152,7 +154,7 @@ export const ExerciseCard = ({ exercise, onClick, onMoveToDay }: Props) => {
       </div>
 
       <div className={cl.right}>
-        <h3 className={cl.title}>{exercise.title}</h3>
+        <h3 data-testid="title-exercise" className={cl.title}>{exercise.title}</h3>
 
         <div className={cl.history} ref={historyRef}>
           {profileData.history.map((entry, index) => {

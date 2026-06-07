@@ -1,4 +1,12 @@
 {
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "types": ["node","jest",],
+    "lib": ["es2020", "ESNext"],
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
+   },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

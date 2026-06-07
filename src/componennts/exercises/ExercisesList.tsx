@@ -115,6 +115,7 @@ export const ExercisesList = () => {
 
       {filteredExercises.map((exercise) => (
         <ExerciseCard
+          key={exercise.id}
           exercise={exercise}
           onClick={() => setSelectedExercise(exercise)}
           onMoveToDay={moveExerciseToDay}

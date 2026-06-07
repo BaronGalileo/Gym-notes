@@ -16,7 +16,7 @@ export const ExercisesPage = () => {
     <div className={cl.wrapper}>
       <ProfileSwitcher/>
       <ExercisesList/>
-      {isVisible ? <AddExerciseForm setIsVisible={setIsVisible}/> : <MyButton onClick={() => setIsVisible(true)}>Добавить упражнение</MyButton>}
+      {isVisible ? <AddExerciseForm setIsVisible={setIsVisible}/> : <MyButton data-testid='btn-show-form-add' onClick={() => setIsVisible(true)}>Добавить упражнение</MyButton>}
     </div>
   );
 };

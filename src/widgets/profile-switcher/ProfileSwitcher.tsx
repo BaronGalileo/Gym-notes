@@ -15,7 +15,6 @@ export const ProfileSwitcher = () => {
   const removeProfile = useGymStore((s) => s.removeProfile);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
   const [confirmProfile, setConfirmProfile] = useState<Profile | null>(null);
-  console.log("profiles", profiles);
 
   const [open, setOpen] = useState(false);
 

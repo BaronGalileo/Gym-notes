@@ -6,9 +6,9 @@ type Props = {
   description?: string;
   btnCancelText?: string;
   btnOkText?: string;
-
   onConfirm: () => void;
   onCancel: () => void;
+  dataTestId?: string;
 };
 
 export const ConfirmModal = ({
@@ -18,9 +18,10 @@ export const ConfirmModal = ({
   btnOkText = "Удалить",
   onConfirm,
   onCancel,
+  dataTestId,
 }: Props) => {
   return (
-    <div className={cl.overlay}>
+    <div className={cl.overlay} data-testid={dataTestId}>
       <div className={cl.modal} onClick={(e) => e.stopPropagation()}>
         <h3>{title}</h3>
 

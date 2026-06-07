@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import type {
   Exercise,
@@ -46,6 +46,8 @@ type GymStore = {
 };
 
 const defaultProfileId = "default-profile";
+
+declare var process: any;
 
 export const useGymStore = create<GymStore>()(
   persist(
@@ -245,7 +247,10 @@ export const useGymStore = create<GymStore>()(
     {
       name: "gym-storage",
 
-      storage: indexedDBStorage,
+      storage:
+        process.env.NODE_ENV === "test"
+          ? createJSONStorage(() => localStorage)
+          : indexedDBStorage,
 
       partialize: (state) => ({
         exercises: state.exercises,

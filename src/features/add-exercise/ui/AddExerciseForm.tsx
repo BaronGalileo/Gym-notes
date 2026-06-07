@@ -95,9 +95,10 @@ export const AddExerciseForm = ({ setIsVisible }: Props) => {
   };
 
   return (
-    <div className={cl.wrapper}>
+    <div className={cl.wrapper} data-testid="form-add-exercises">
       {isConfirmOpen && selectedExercise && (
         <ConfirmModal
+          dataTestId={`confirm-modal ${selectedExercise.title}`}
           title="Упражнение есть"
           description={`Перейти в ${selectedExercise.title}`}
           btnCancelText="Назад"
@@ -111,6 +112,7 @@ export const AddExerciseForm = ({ setIsVisible }: Props) => {
       )}
       {isOpenModal && selectedExercise && (
         <ExerciseModal
+          dataTestId={`exercise-modal ${selectedExercise.title}`}
           exercise={selectedExercise}
           onClose={() => setSelectedExercise(null)}
         />
@@ -118,6 +120,7 @@ export const AddExerciseForm = ({ setIsVisible }: Props) => {
       <IconButton className={cl.closeBtn} onClick={() => setIsVisible(false)} />
       <h2>Новое упражнение</h2>
       <MyInput
+        data-testid="input-add-exercises"
         label="Введите название упражнения"
         placeholder="Название упражнения"
         value={title}
@@ -149,7 +152,7 @@ export const AddExerciseForm = ({ setIsVisible }: Props) => {
 
       <br />
 
-      <MyButton disabled={!title} onClick={handleAdd}>
+      <MyButton data-testid="btn-add-exercises" disabled={!title} onClick={handleAdd}>
         Добавить
       </MyButton>
     </div>
