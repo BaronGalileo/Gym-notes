@@ -10,13 +10,12 @@ test.describe("gym-notes", () => {
   const title = "test exercise";
 
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:5173/"); 
+    await page.goto("http://localhost:5173/");
   });
 
   test("should render initial page state and open add form", async ({
     page,
   }) => {
-
     await expect(page.getByText("Добавить упражнение")).toBeVisible();
 
     await expect(page.getByTestId("form-add-exercises")).not.toBeVisible();
@@ -27,11 +26,9 @@ test.describe("gym-notes", () => {
   });
 
   test("should add new exercise and show it in the list", async ({ page }) => {
-
     await addExercise(page, title);
 
     await expect(page.getByTestId("form-add-exercises")).not.toBeVisible();
-
 
     const newExerciseTitle = page
       .getByTestId("title-exercise")
@@ -42,7 +39,6 @@ test.describe("gym-notes", () => {
   test("should handle duplicate exercise error and allow to cancel", async ({
     page,
   }) => {
-
     await addExercise(page, title);
 
     await addExercise(page, title);
@@ -63,15 +59,12 @@ test.describe("gym-notes", () => {
 
     await addExercise(page, title);
 
-
     await page.getByRole("button", { name: /перейти/i }).click();
-
 
     await expect(page.getByTestId(`exercise-modal ${title}`)).toBeVisible();
   });
 
   test("should cancel exercise deletion", async ({ page }) => {
-
     await addExercise(page, title);
 
     await page.getByTestId(`btn-remove-exercise ${title}`).click();
@@ -87,7 +80,6 @@ test.describe("gym-notes", () => {
   });
 
   test("should successfully delete exercise", async ({ page }) => {
-
     await addExercise(page, title);
 
     await page.getByTestId(`btn-remove-exercise ${title}`).click();
@@ -96,7 +88,26 @@ test.describe("gym-notes", () => {
 
     await expect(page.getByTestId("modal-remove-exercise")).not.toBeVisible();
 
-    await expect(
-      page.getByTestId("title-exercise")).not.toBeVisible()
+    await expect(page.getByTestId("title-exercise")).not.toBeVisible();
+  });
+  test("page screenshot", async ({ page }) => {
+    await page.goto("http://localhost:5173/");
+
+    await page.waitForTimeout(500);
+
+    await page.screenshot({
+      path: "screenshots/full-page.png",
+      fullPage: true,
+    });
+
+    await page.getByTestId("btn-show-form-add").click();
+
+    const form = page.getByTestId("form-add-exercises");
+    await form.screenshot({ path: "screenshots/form-add-exercises.png" });
+
+    await page.screenshot({
+      path: "screenshots/full-page-addExercise-form-open.png",
+      fullPage: true,
+    });
   });
 });
