@@ -49,3 +49,8 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.dark {
+  background: #faf2f2;
+  color: #160808;
+}
